@@ -149,17 +149,18 @@ python src/tools/optimize_hparams.py
 
 ---
 
-### Inferencia y despliegue
+### Inferencia
 
 Los notebooks incluidos permiten realizar **inferencia y análisis visual** sobre clips de prueba (RWF‑2000).
 Ambos cargan configuraciones YAML predefinidas para reproducir el entorno de entrenamiento.
 
-- `notebooks/inference_violence_dualstreamnet_cbam_se_fgf.ipynb`:
+- `src/inference_violence_dualstreamnet_cbam_se_fgf.ipynb`:
   Ejecuta inferencia con el **modelo propuesto DS3D‑FGAttNet** (Dual‑Stream 3D CNN con CBAM3D, SEBlock y fusión FGF).
-  Incluye visualización de frames, heatmaps de atención, y métricas por clip.
-- `notebooks/inferencia_violence_detection_3dcnn.ipynb`:
+- `src/inferencia_violence_detection_3dcnn.ipynb`:
   Ejecuta inferencia con el **modelo alterno CNN3D baseline**, bajo idénticas condiciones de preprocesado y normalización.
   Facilita la comparación directa de desempeño y latencia.
+
+**Salida típica:** etiquetas predichas y probabilidades por clip, con opción de guardar resultados en archivo.
 
 Configuraciones de soporte:
 
