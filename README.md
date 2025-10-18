@@ -2,7 +2,7 @@
 
 Modelo dual-stream 3D para **detección automática de violencia** en vídeos de cámaras estacionarias, que integra dos flujos de entrada —RGB y flujo óptico— procesados por ramas convolucionales tridimensionales paralelas.
 La arquitectura implementa mecanismos de atención CBAM3D (espacial y de canal) y SEBlock (squeeze-and-excitation) para resaltar características discriminativas, mientras que la fusión guiada por flujo (FGF) permite una integración adaptativa entre ambas corrientes de información mediante compuertas multiplicativas.
-El modelo aprovecha convoluciones separables 3D, normalización ligera y un bloque de fusión parcial tipo P3D, optimizando el equilibrio entre precisión y eficiencia computacional en entornos de videovigilancia fija.
+El modelo aprovecha convoluciones separables 3D, normalización ligera, optimizando el equilibrio entre precisión y eficiencia computacional en entornos de videovigilancia fija.
 
 ---
 
