@@ -1,0 +1,218 @@
+"general":
+  "project_name": "ViolenceDualStreamNet"
+  "experiment_name": "cnn3d_rwf2000_optuna_v2"
+  "seed": 42
+  "device": "cuda"
+  "debug": false
+"dataset":
+  "root": "../data/npy"
+  "use_npy": true
+  "frames_per_clip": 32
+  "frame_size":
+  - 224
+  - 224
+  "num_workers": 6
+  "batch_size": 8
+  "shuffle_train": true
+  "normalize_global": false
+"augmentations":
+  "resize_video":
+    "enabled": true
+    "size":
+    - 256
+    - 256
+  "motion_based_crop":
+    "enabled": true
+    "crop_size":
+    - 224
+    - 224
+  "normalize_video":
+    "enabled": true
+    "use_mode": "standard"
+    "mean":
+    - 0.45
+    - 0.44
+    - 0.43
+    - 0.5
+    - 0.5
+    "std":
+    - 0.22
+    - 0.23
+    - 0.24
+    - 0.15
+    - 0.15
+  "temporal_reverse":
+    "enabled": true
+    "p": 0.3
+  "random_rotation":
+    "enabled": false
+    "degrees": 10
+    "p": 0.5
+  "random_crop":
+    "enabled": true
+  "random_horizontal_flip":
+    "enabled": true
+    "p": 0.5
+  "brightness_jitter":
+    "enabled": true
+    "p": 0.3
+    "min_factor": 0.8
+    "max_factor": 1.2
+  "cutout":
+    "enabled": true
+    "size": 20
+    "p": 0.5
+  "flow_jitter":
+    "enabled": true
+    "p": 0.3
+    "noise_std": 0.05
+  "temporal_jitter":
+    "enabled": true
+    "target_length": 32
+"model":
+  "class_name": "ViolenceDualStreamNet"
+  "num_classes": 2
+  "dropout": 0.15
+  "classifier_hidden": 64
+  "apply_pruning": true
+  "enable_pruning_scheduler": true
+  "initial_pruning": 0.05
+  "final_pruning": 0.3
+  "pruning_amount": 0.05
+"optuna":
+  "n_trials": 20
+  "timeout": 14400
+  "search_space":
+    "scheduler_type":
+      "choices":
+      - "plateau"
+    "learning_rate":
+      "low": 0.0001
+      "high": 0.001
+      "log": true
+    "dropout":
+      "low": 0.1
+      "high": 0.5
+    "batch_size":
+      "choices":
+      - 8
+      - 12
+      - 16
+    "optimizer":
+      "choices":
+      - "adamW"
+      - "rmsprop"
+    "classifier_hidden":
+      "choices":
+      - 64
+      - 128
+    "lr_step_size":
+      "low": 5
+      "high": 15
+    "lr_gamma":
+      "low": 0.2
+      "high": 0.9
+"training":
+  "freeze_backbone": false
+  "use_amp": true
+  "use_label_smoothing": true
+  "label_smoothing_value": 0.1
+  "optimizer_patience": 3
+  "optimizer_factor": 0.3
+  "optimizer_verbose": true
+  "optimizer_mode": "max"
+  "use_class_weight": true
+  "normalize_class_weights": true
+  "learning_rate": 0.0009330606024425672
+  "optimizer": "rmsprop"
+  "epochs": 50
+  "lr_scheduler": "plateau"
+  "lr_step_size": 5
+  "lr_gamma": 0.2976457024564293
+  "weight_decay": 1.0e-04
+  "early_stopping_patience": 8
+  "early_stopping_mode": "max"
+  "early_stopping_delta": 0.0005
+  "metrics_to_monitor":
+  - "accuracy"
+  - "f1"
+  - "precision"
+  - "recall"
+  - "auc"
+  - "specificity"
+  - "sensitivity"
+  "optuna_pruning_metric": "f1"
+  "early_stopping_metric": "f1"
+  "monitor_confusion_matrix": true
+  "monitor_fps": true
+  "batch_size": 8
+"validation":
+  "statistical_tests":
+    "enable_mcnemar": true
+    "enable_bootstrap": true
+    "bootstrap_iterations": 1000
+    "confidence_interval": 0.95
+"comparison":
+  "models_to_compare":
+  - "cnn3d"
+  - "i3d"
+  - "slowfast"
+  - "timesformer"
+  "compare_on_metrics":
+  - "f1"
+  - "recall"
+  - "precision"
+  - "auc"
+  - "specificity"
+  - "sensitivity"
+  "compare_on_inference_speed": true
+  "compare_on_model_size": true
+"output":
+  base_dir: "experiments"
+
+  train:
+    checkpoints_path: "experiments/run_train_v8/checkpoints/best_model.pth"
+    logs_path: "experiments/run_train_v8/logs"
+    metrics_path: "experiments/run_train_v8/metrics.json"
+    history_path: "experiments/run_train_v8/logs/history.json"
+    slimmed_model_path: "experiments/run_train_v8/checkpoints/model_slimmed.pth"
+    metrics_dir: "experiments/run_train_v8/metrics"
+    confusion_dir: "experiments/run_train_v8/confusions"
+    report_classification_json: "experiments/run_train_v8/report_classification.json"
+    report_roc_curve: "experiments/run_train_v8/roc_curve.png"
+    report_confusion_matrix: "experiments/run_train_v8/confusion_matrix.png"
+    save_best_only: true
+    save_slimmed_model: true
+    save_metrics_history: true
+    save_confusion_json: true
+
+  optuna:
+    checkpoints_path: "experiments/run_optuna/checkpoints/best_model.pth"
+    logs_path: "experiments/run_optuna/logs"
+    metrics_path: "experiments/run_optuna/metrics.json"
+    history_path: "experiments/run_optuna/logs/history.json"
+    slimmed_model_path: "experiments/run_optuna/checkpoints/model_slimmed.pth"
+    metrics_dir: "experiments/run_optuna/metrics"
+    confusion_dir: "experiments/run_optuna/confusions"
+    report_classification_json: "experiments/run_optuna/report_classification.json"
+    report_roc_curve: "experiments/run_optuna/roc_curve.png"
+    report_confusion_matrix: "experiments/run_optuna/confusion_matrix.png"
+    report_hparams: "outputs/hparams"
+    report_best_hparams: "outputs/hparams/best_hparams.json"
+    save_best_only: true
+    save_slimmed_model: false
+    save_metrics_history: true
+    save_confusion_json: true
+
+"logging":
+  "use_wandb": true
+  "wandb_entity": null
+  "wandb_project_suffix": ""
+"inference":
+  "model_path": "inference/model/model_proposed.pth"
+  "clip_input_format": "npy"
+  "label_map":
+    "0": "NonFight"
+    "1": "Fight"
+  "output_path": "../outputs/predictions/proposed"
+  "save_video_with_predictions": false

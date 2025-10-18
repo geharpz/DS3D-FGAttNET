@@ -1,0 +1,14 @@
+torch==2.6.0+cu126
+torchvision==0.21.0+cu126
+torchaudio==2.6.0+cu126
+tensorflow==2.10.0
+optuna==4.3.0
+scikit-learn==1.2.1
+matplotlib==3.7.0
+numpy==1.26.2
+pandas==1.5.3
+opencv-python==4.8.0.74
+tqdm==4.64.1
+PyYAML==6.0
+opencv-python==1.21.1
+python-dotenv=1.1.0

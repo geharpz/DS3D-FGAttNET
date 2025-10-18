@@ -1,0 +1,27 @@
+
+version: '3.9'
+
+services:
+  violence-detection:
+    container_name: violence_model
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: violence-detection:latest
+    volumes:
+      - .:/app
+      - ./data:/app/data
+      - ./outputs:/app/outputs
+    working_dir: /app
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    stdin_open: true
+    tty: true
